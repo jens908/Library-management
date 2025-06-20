@@ -16,3 +16,4 @@ schedule: bench schedule
 
 worker:  bench worker 1>> logs/worker.log 2>> logs/worker.error.log
 
+web: python3 chatwoot_bot/chatwoot_bot.py

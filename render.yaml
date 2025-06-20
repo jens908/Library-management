@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: chatwoot-bot
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: python3 chatwoot_bot/chatwoot_bot.py
+    envVars:
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: CHATWOOT_BOT_TOKEN
+        sync: false
