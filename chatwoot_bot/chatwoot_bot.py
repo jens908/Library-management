@@ -2,10 +2,14 @@ from flask import Flask, request, jsonify
 import openai
 import os
 
+app = Flask(__name__)  # ✅ define app first
+
 # Load your OpenAI API key from environment variable
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
-app = Flask(__name__)
+@app.route('/')
+def home():
+    return '✅ Chatwoot Bot is Live'
 
 @app.route('/webhook', methods=['POST'])
 def webhook():
@@ -28,3 +32,4 @@ def webhook():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5005)
+
