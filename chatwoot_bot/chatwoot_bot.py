@@ -14,16 +14,19 @@ def webhook():
 
     message = data.get("content")
     conversation_id = data.get("conversation", {}).get("id")
+    account_id = data.get("account", {}).get("id")
+
     print(f"🧾 Message: {message}")
     print(f"🆔 Conversation ID: {conversation_id}")
+    print(f"🏢 Account ID: {account_id}")
 
-    if not message or not conversation_id:
-        print("⚠️ Missing message or conversation ID")
+    if not message or not conversation_id or not account_id:
+        print("⚠️ Missing required data")
         return {"status": "ignored"}, 200
 
     reply = f"Echo: {message}"
 
-    url = f"{CHATWOOT_API_URL}/api/v1/conversations/{conversation_id}/messages"
+    url = f"{CHATWOOT_API_URL}/api/v1/accounts/{account_id}/conversations/{conversation_id}/messages"
     headers = {
         "Content-Type": "application/json",
         "api_access_token": CHATWOOT_TOKEN
