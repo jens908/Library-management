@@ -19,11 +19,8 @@ def webhook():
         return {"status": "ignored"}, 200
 
     # OpenAI reply
-    completion = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
-        messages=[{"role": "user", "content": message}],
-    )
-    reply = completion.choices[0].message.content
+        reply = f"Echo: {message}"  # Temporary mock reply
+
 
     # Reply back to Chatwoot
     requests.post(
