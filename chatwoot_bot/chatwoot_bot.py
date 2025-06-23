@@ -10,21 +10,35 @@ CHATWOOT_TOKEN = os.environ.get("CHATWOOT_ACCESS_TOKEN")
 @app.route("/webhook", methods=["POST"])
 def webhook():
     data = request.json
+    print("📥 Incoming Data:", data)
+
     message = data.get("content")
     conversation_id = data.get("conversation", {}).get("id")
+    print(f"🧾 Message: {message}")
+    print(f"🆔 Conversation ID: {conversation_id}")
 
     if not message or not conversation_id:
+        print("⚠️ Missing message or conversation ID")
         return {"status": "ignored"}, 200
 
-    # Mock reply instead of OpenAI
     reply = f"Echo: {message}"
 
-    # Reply back to Chatwoot
-    requests.post(
-        f"{CHATWOOT_API_URL}/api/v1/conversations/{conversation_id}/messages",
-        headers={"Content-Type": "application/json", "api_access_token": CHATWOOT_TOKEN},
-        json={"content": reply, "message_type": "outgoing"},
-    )
+    url = f"{CHATWOOT_API_URL}/api/v1/conversations/{conversation_id}/messages"
+    headers = {
+        "Content-Type": "application/json",
+        "api_access_token": CHATWOOT_TOKEN
+    }
+    payload = {
+        "content": reply,
+        "message_type": "outgoing"
+    }
+
+    print("📤 Sending reply to Chatwoot...")
+    print("🔗 URL:", url)
+    print("📦 Payload:", payload)
+
+    response = requests.post(url, headers=headers, json=payload)
+    print("📡 Response:", response.status_code, response.text)
 
     return {"status": "ok"}, 200
 
